@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kalambury</string>
+    <string name="clear_text">Czyść</string>
+    <string name="maluj">Maluj</string>
+    <string name="size1">1</string>
+
+    <!-- score_screen '-->
+    <string name="player">Gracz:</string>
+    <string name="score">Wynik:</string>
+    <string name="round">Runda:</string>
+    <string name="score_default">0</string>
+    <string name="round_default">0/10</string>
+
+    <!-- ActionBar '-->
+    <string name="clock_default">Zegar</string>
+    <string name="scores">Wyniki</string>
+    <string name="tools">Narzędzia</string>
+</resources>

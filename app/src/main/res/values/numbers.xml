@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- initial size_bar value '-->
+    <integer name="init_size">1</integer>
+    <!-- size difference between size_bar and drawing '-->
+    <integer name="size_difference">8</integer>
+</resources>
