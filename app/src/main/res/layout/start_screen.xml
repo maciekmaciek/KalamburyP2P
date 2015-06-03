@@ -1,19 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
+                android:background="@drawable/back_kalambury"
         >
 
-<TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello World, StartScreen"
-        />
-<Button
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/maluj"
-        android:onClick="onClick"/>
-</LinearLayout>
+    <TableLayout
+            android:layout_width="228dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start"
+            android:onClick="onClick"
+            android:id="@+id/button_start"
+            android:layout_margin="5dp"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about"
+                android:id="@+id/button_about"
+                android:onClick="onClick"
+                android:layout_margin="5dp"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/exit"
+                android:id="@+id/button_exit"
+                android:onClick="onClick"
+                android:layout_margin="5dp"/>
+
+    </TableLayout>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:background="@drawable/title"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="39dp"/>
+
+</RelativeLayout>
 

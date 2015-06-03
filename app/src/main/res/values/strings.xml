@@ -4,6 +4,8 @@
     <string name="clear_text">Czyść</string>
     <string name="maluj">Maluj</string>
     <string name="size1">1</string>
+    <string name="yield">Rezygnuj</string>
+    <string name="accept">Zgaduj</string>
 
     <!-- score_screen '-->
     <string name="player">Gracz:</string>
@@ -16,4 +18,8 @@
     <string name="clock_default">Zegar</string>
     <string name="scores">Wyniki</string>
     <string name="tools">Narzędzia</string>
+    <string name="history">Historia</string>
+    <string name="about">O grze</string>
+    <string name="exit">Wyjście</string>
+    <string name="start">Rozpocznij</string>
 </resources>

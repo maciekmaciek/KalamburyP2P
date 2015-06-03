@@ -7,8 +7,8 @@
             android:showAsAction="always"/>
     <item
             android:id="@+id/score_results"
-            android:icon="@drawable/scores_icon"
-            android:title="@string/scores"
+            android:icon="@drawable/history_icon"
+            android:title="@string/history"
             android:showAsAction="always"/>
     <item
             android:id="@+id/paint_settings"

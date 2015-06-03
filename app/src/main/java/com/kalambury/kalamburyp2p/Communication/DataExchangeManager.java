@@ -1,4 +1,4 @@
-package com.kalambury.kalamburyp2p;
+package com.kalambury.kalamburyp2p.Communication;
 
 import android.app.Activity;
 

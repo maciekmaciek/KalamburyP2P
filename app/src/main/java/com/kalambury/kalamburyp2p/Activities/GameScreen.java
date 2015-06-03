@@ -1,4 +1,4 @@
-package com.kalambury.kalamburyp2p;
+package com.kalambury.kalamburyp2p.Activities;
 
 
 import android.app.Activity;
@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import com.kalambury.kalamburyp2p.Components.PaintView;
+import com.kalambury.kalamburyp2p.R;
 
 /**
  * Created by Maciej Wolański
@@ -36,7 +38,7 @@ public class GameScreen extends Activity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 paintView.setCurrentSize(progress + getResources().getInteger(R.integer.size_difference));
                 int tempSize = progress == 0 ? 1 : progress;
-                ((TextView) findViewById(R.id.text_size)).setText(tempSize + "");
+                ((TextView) findViewById(R.id.size_text)).setText(tempSize + "");
             }
 
             @Override
@@ -82,6 +84,10 @@ public class GameScreen extends Activity {
     public void onClear(View view) {
         paintView.clear();
     } //clear surface
+    
+    public void onYield(View view) {
+        paintView.clear();
+    } //clear surface
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,21 +110,21 @@ public class GameScreen extends Activity {
                     menuVisibility = 0;
                 } else {
                     findViewById(R.id.drawing_settings).setVisibility(View.VISIBLE);
-                    findViewById(R.id.scores_view).setVisibility(View.GONE);
+                    findViewById(R.id.history_view).setVisibility(View.GONE);
                     menuVisibility = 1;
                     //hide scores
                 }
                 return true;
             case R.id.score_results:
                 if (menuVisibility == 0) {
-                    findViewById(R.id.scores_view).setVisibility(View.VISIBLE);
+                    findViewById(R.id.history_view).setVisibility(View.VISIBLE);
                     menuVisibility = 2;
                 } else if (menuVisibility == 1) {
-                    findViewById(R.id.scores_view).setVisibility(View.VISIBLE);
+                    findViewById(R.id.history_view).setVisibility(View.VISIBLE);
                     findViewById(R.id.drawing_settings).setVisibility(View.GONE);
                     menuVisibility = 2;
                 } else {
-                    findViewById(R.id.scores_view).setVisibility(View.GONE);
+                    findViewById(R.id.history_view).setVisibility(View.GONE);
                     menuVisibility = 2;
                 }
                 return true;

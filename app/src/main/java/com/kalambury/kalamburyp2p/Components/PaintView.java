@@ -1,4 +1,4 @@
-package com.kalambury.kalamburyp2p;
+package com.kalambury.kalamburyp2p.Components;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,6 +10,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import com.kalambury.kalamburyp2p.Activities.GameScreen;
+import com.kalambury.kalamburyp2p.Utils.DrawingObject;
+import com.kalambury.kalamburyp2p.R;
 
 import java.util.ArrayList;
 
@@ -74,7 +77,7 @@ public class PaintView extends SurfaceView implements SurfaceHolder.Callback {
                     ((GameScreen) getContext()).findViewById(R.id.drawing_settings).setVisibility(View.GONE);
                     ((GameScreen) getContext()).setMenuVisibility((byte) 0);
                 } else if (hide == 2) {
-                    ((GameScreen) getContext()).findViewById(R.id.scores_view).setVisibility(View.GONE);
+                    ((GameScreen) getContext()).findViewById(R.id.history_view).setVisibility(View.GONE);
                     ((GameScreen) getContext()).setMenuVisibility((byte) 0);
                 }
 
@@ -94,9 +97,9 @@ public class PaintView extends SurfaceView implements SurfaceHolder.Callback {
 
     protected void onDraw(Canvas canvas) {
         for (DrawingObject d : drawingPoints) {
-            paint.setColor(d.color);
-            paint.setStrokeWidth(d.size);
-            canvas.drawPath(d.path, paint);
+            paint.setColor(d.getColor());
+            paint.setStrokeWidth(d.getSize());
+            canvas.drawPath(d.getPath(), paint);
         }
         paint.setColor(currentColor);
     }
