@@ -145,7 +145,7 @@ public class Database {
         return hasla;
     }
 
-    public String getHaslo(int id) {
+    public String getHaslo(int id) {    //do losowania
         String[] columns = {KEY_HASLO};
         String where = KEY_ID + "= '" + id + "'";
         Cursor cursor = db.query(DB_HASLA_TABLE, columns, where, null, null, null, null);

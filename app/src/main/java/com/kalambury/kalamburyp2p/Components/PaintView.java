@@ -1,10 +1,7 @@
 package com.kalambury.kalamburyp2p.Components;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
+import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -25,22 +22,30 @@ import java.util.ArrayList;
     Problemy z wydajnością, do poprawy
  */
 
-public class PaintView extends SurfaceView implements SurfaceHolder.Callback {
+public class PaintView extends View {
 
     private int currentColor;
     private int currentSize;
     private Path drawingPath;   //currently drawn Path
     private ArrayList<DrawingObject> drawingPoints; //list of Paths with color and size
+    private static final float MINP = 0.25f;
+    private static final float MAXP = 0.75f;
+    private Bitmap mBitmap;
+    private Canvas  mCanvas;
+    private Paint   mBitmapPaint;
     private Paint paint;
 
 
-    public PaintView(Context context) {
-        super(context);
+    public PaintView(Context c) {
+        super(c);
+        mBitmapPaint = new Paint(Paint.DITHER_FLAG);
         initialize();
     }
 
     public PaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        mBitmapPaint = new Paint(Paint.DITHER_FLAG);
         initialize();
     }
 
@@ -55,18 +60,51 @@ public class PaintView extends SurfaceView implements SurfaceHolder.Callback {
         paint.setStrokeJoin(Paint.Join.ROUND);
 
     }
-    public void surfaceCreated(SurfaceHolder holder) {
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mBitmap);
     }
 
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    @Override
+    protected void onDraw(Canvas canvas) {
+        for (DrawingObject d : drawingPoints) {
+            paint.setColor(d.getColor());
+            paint.setStrokeWidth(d.getSize());
+            canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+            canvas.drawPath(d.getPath(), paint);
+        }
+        paint.setColor(currentColor);
+    }
+    private float mX, mY;
+    private static final float TOUCH_TOLERANCE = 4;
 
+    private void touch_start(float x, float y) {
+        drawingPath.reset();
+        drawingPath.moveTo(x, y);
+        mX = x;
+        mY = y;
+    }
+    private void touch_move(float x, float y) {
+        float dx = Math.abs(x - mX);
+        float dy = Math.abs(y - mY);
+        if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
+            drawingPath.quadTo(mX, mY, (x + mX)/2, (y + mY)/2);
+            mX = x;
+            mY = y;
+        }
+    }
+    private void touch_up() {
+        drawingPath.lineTo(mX, mY);
+        // commit the path to our offscreen
+        mCanvas.drawPath(drawingPath, paint);
+        // kill this so we don't double draw
+        drawingPath.reset();
     }
 
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
-    }
-
-    public boolean onTouchEvent(MotionEvent event) {    //drawing and hiding game menus
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {//drawing and hiding game menus
         float x = event.getX();
         float y = event.getY();
         switch (event.getAction()) {
@@ -79,28 +117,18 @@ public class PaintView extends SurfaceView implements SurfaceHolder.Callback {
                     ((GameScreen) getContext()).findViewById(R.id.history_view).setVisibility(View.GONE);
                     ((GameScreen) getContext()).setMenuVisibility((byte) 0);
                 }
-
-                drawingPath.moveTo(x, y);
-                return true;
-            case MotionEvent.ACTION_MOVE:
-                drawingPath.lineTo(x, y);
+                touch_start(x, y);
                 break;
-            default:
-                return false;
-
+            case MotionEvent.ACTION_MOVE:
+                touch_move(x, y);
+                break;
+            case MotionEvent.ACTION_UP:
+                touch_up();
+                break;
         }
         drawingPoints.add(new DrawingObject(drawingPath, currentColor, currentSize));
         invalidate();
-        return false; //draw
-    }
-
-    protected void onDraw(Canvas canvas) {
-        for (DrawingObject d : drawingPoints) {
-            paint.setColor(d.getColor());
-            paint.setStrokeWidth(d.getSize());
-            canvas.drawPath(d.getPath(), paint);
-        }
-        paint.setColor(currentColor);
+        return true;
     }
 
     public void clear() {
