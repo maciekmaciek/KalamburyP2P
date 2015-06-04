@@ -3,6 +3,7 @@ package com.kalambury.kalamburyp2p.Utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -93,7 +94,9 @@ public class Database {
         }
         return this;
     }
-
+    public SQLiteDatabase getSQLiteDB(){
+        return db;
+    }
     public void close() {
         dbHelper.close();
     }
@@ -145,13 +148,13 @@ public class Database {
         return hasla;
     }
 
-    public String getHaslo(int id) {    //do losowania
-        String[] columns = {KEY_HASLO};
+    public Pair<Integer,String> getHaslo(int id) {    //do losowania
+        String[] columns = {KEY_ID, KEY_HASLO};
         String where = KEY_ID + "= '" + id + "'";
         Cursor cursor = db.query(DB_HASLA_TABLE, columns, where, null, null, null, null);
-        String haslo = "";
+        Pair<Integer,String> haslo = null;
         if (cursor != null && cursor.moveToFirst()) {
-            haslo = cursor.getString(HASLO_COLUMN);
+            haslo = new Pair<Integer, String>(cursor.getInt(ID_COLUMN), cursor.getString(HASLO_COLUMN));
         }
         return haslo;
     }

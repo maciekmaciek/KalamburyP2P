@@ -34,6 +34,7 @@ public class PaintView extends View {
     private Canvas  mCanvas;
     private Paint   mBitmapPaint;
     private Paint paint;
+    private boolean touchable;
 
 
     public PaintView(Context c) {
@@ -119,6 +120,9 @@ public class PaintView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {//drawing and hiding game menus
+        if(!touchable)
+            return false;
+
         float x = event.getX();
         float y = event.getY();
         switch (event.getAction()) {
@@ -168,5 +172,9 @@ public class PaintView extends View {
     public void setCurrentSize(int currentSize) {
         drawingPath = new Path();
         this.currentSize = currentSize;
+    }
+
+    public void setTouchable(boolean touchable) {
+        this.touchable = touchable;
     }
 }
