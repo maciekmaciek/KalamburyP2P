@@ -10,6 +10,9 @@ import java.io.FileOutputStream;
  * Created by Maciej Wolański
  * maciekwski@gmail.com
  * on 2014-08-18.
+ *
+ *
+ * Nie wiem co tu się dzieje, chyba nic. To pewnie będzie klasa do komunikacji
  */
 public class DataExchangeManager {
     private static final DataExchangeManager instance = new DataExchangeManager();

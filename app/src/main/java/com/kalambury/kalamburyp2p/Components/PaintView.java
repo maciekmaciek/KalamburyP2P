@@ -21,11 +21,10 @@ import java.util.ArrayList;
  * Created by Maciej Wolański
  * maciekwski@gmail.com
  * on 2014-07-7.
+
+    Problemy z wydajnością, do poprawy
  */
 
-/*
-Surface to paint on
- */
 public class PaintView extends SurfaceView implements SurfaceHolder.Callback {
 
     private int currentColor;

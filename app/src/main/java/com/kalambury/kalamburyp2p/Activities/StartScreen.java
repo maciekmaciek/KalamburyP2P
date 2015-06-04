@@ -24,14 +24,12 @@ public class StartScreen extends Activity {
     }
 
     public void onClick(View view) {
-        logIn();
         switch(view.getId()){
             case R.id.button_start:
-                Intent i = new Intent(this, GameScreen.class);
-                startActivity(i);
+                logIn();
                 break;
             case R.id.button_about:
-                AlertDialog ad = new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this)
                         .setTitle("O grze")
                         .setMessage("Kalambury, 2graczy, wifi direct")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -46,10 +44,12 @@ public class StartScreen extends Activity {
         }
     }
 
-    private void logIn(){
+    private void logIn(){   //tutaj bêdzie ³¹czenie z innym userem
         if(dem.logIn())
             register();
 
+        Intent i = new Intent(this, GameScreen.class);
+        startActivity(i);
     }
     private void register(){
         dem.register("a", "a");

@@ -18,9 +18,16 @@ import com.kalambury.kalamburyp2p.R;
  * Created by Maciej Wolański
  * maciekwski@gmail.com
  * on 2014-07-14.
+ *
+ *
+ * Główna aktywność gry, 2 tryby - > rysowanie i odpowiedź
+ * przy rysowaniu zablokowana odpowiedź, przy odpowiedzi zablokowane rysowanie
+ * W pasku: zegar, historia haseł, przybornik kolorów
+ * Niżej plansza do rysowania
+ * niżej pole do odpowiedzi (kiedy rysujesz, wyświetla hasło)
  */
 public class GameScreen extends Activity {
-
+    // TODO zegar, tryby - rysowanie, odpowiedź
     private byte menuVisibility = 0; // 0 - paintview, 1 - drawingmenu, 2 - scores
     private PaintView paintView;    //drawing surface
     private SeekBar sizeBar;
@@ -84,10 +91,10 @@ public class GameScreen extends Activity {
     public void onClear(View view) {
         paintView.clear();
     } //clear surface
-    
+
     public void onYield(View view) {
         paintView.clear();
-    } //clear surface
+    } //clear surface "odpowiedz", "rezygnuj"
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
