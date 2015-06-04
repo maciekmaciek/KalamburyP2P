@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import com.kalambury.kalamburyp2p.Communication.DataExchangeManager;
+import com.kalambury.kalamburyp2p.Communication.GameMode;
 import com.kalambury.kalamburyp2p.R;
 import com.kalambury.kalamburyp2p.Utils.Database;
 
@@ -56,11 +57,12 @@ public class StartScreen extends Activity {
         }
     }
 
-    private void logIn(){   //tutaj bêdzie ³¹czenie z innym userem
+    private void logIn(){   //tutaj bï¿½dzie ï¿½ï¿½czenie z innym userem
         if(dem.logIn())
             register();
-
+        GameMode gm = GameMode.DRAWING;
         Intent i = new Intent(this, GameScreen.class);
+        i.putExtra("mode", gm);
         startActivity(i);
     }
     private void register(){

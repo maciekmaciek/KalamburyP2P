@@ -2,17 +2,26 @@ package com.kalambury.kalamburyp2p.Activities;
 
 
 import android.app.Activity;
+import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import com.kalambury.kalamburyp2p.Communication.GameMode;
 import com.kalambury.kalamburyp2p.Components.PaintView;
 import com.kalambury.kalamburyp2p.R;
+import com.kalambury.kalamburyp2p.Utils.Database;
+import com.kalambury.kalamburyp2p.Utils.GuessHelper;
+
+import java.util.Random;
 
 /**
  * Created by Maciej Wolański
@@ -29,12 +38,17 @@ import com.kalambury.kalamburyp2p.R;
 public class GameScreen extends Activity {
     // TODO zegar, tryby - rysowanie, odpowiedź
     private byte menuVisibility = 0; // 0 - paintview, 1 - drawingmenu, 2 - scores
+    private Database db;
     private PaintView paintView;    //drawing surface
     private SeekBar sizeBar;
-
+    private Pair<Integer, String> haslo;
+    private long numOfRows;
+    private GameMode mode;
+    private GuessHelper guessHelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mode = (GameMode)getIntent().getExtras().get("mode");
         setContentView(R.layout.game_screen);
         paintView = (PaintView) findViewById(R.id.paint_view);
 
@@ -56,6 +70,34 @@ public class GameScreen extends Activity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+
+        db = new Database(getApplicationContext());
+        db.open();
+        numOfRows = DatabaseUtils.queryNumEntries(db.getSQLiteDB(), "hasla");
+        if(mode == GameMode.DRAWING){
+            startDrawingTurn();
+        } else {
+            startGuessingTurn();
+        }
+    }
+
+    private void startGuessingTurn() {
+        ((Button)findViewById(R.id.decide_button)).setText(getResources().getText(R.string.accept));
+        ((EditText)findViewById(R.id.edit_answer)).setEnabled(true);
+        ((EditText)findViewById(R.id.edit_answer)).setText("");
+        paintView.setTouchable(false);
+        guessHelper = new GuessHelper(haslo.second, getApplicationContext());
+    }
+
+    private void startDrawingTurn() {
+        Random r = new Random();
+        haslo = db.getHaslo(r.nextInt((int)numOfRows));
+
+        ((Button)findViewById(R.id.decide_button)).setText(getResources().getText(R.string.yield));
+        ((EditText)findViewById(R.id.edit_answer)).setEnabled(false);
+        ((EditText)findViewById(R.id.edit_answer)).setText(haslo.second);
+        paintView.setTouchable(true);
+
     }
 
 
@@ -93,7 +135,18 @@ public class GameScreen extends Activity {
     } //clear surface
 
     public void onYield(View view) {
-        paintView.clear();
+        if(mode == GameMode.DRAWING) {
+            paintView.clear();
+            mode = GameMode.GUESSING;
+            startGuessingTurn();
+        } else {
+            EditText odp = (EditText)findViewById(R.id.edit_answer);
+            if(guessHelper.guessHaslo(odp.getText().toString())){
+                mode = GameMode.DRAWING;
+                paintView.clear();
+                startDrawingTurn();
+            }
+        }
     } //clear surface "odpowiedz", "rezygnuj"
 
     @Override
@@ -109,17 +162,19 @@ public class GameScreen extends Activity {
         // Show and hide game menus
         switch (item.getItemId()) {
             case R.id.paint_settings:
-                if (menuVisibility == 0) {
-                    findViewById(R.id.drawing_settings).setVisibility(View.VISIBLE);
-                    menuVisibility = 1;
-                } else if (menuVisibility == 1) {
-                    findViewById(R.id.drawing_settings).setVisibility(View.GONE);
-                    menuVisibility = 0;
-                } else {
-                    findViewById(R.id.drawing_settings).setVisibility(View.VISIBLE);
-                    findViewById(R.id.history_view).setVisibility(View.GONE);
-                    menuVisibility = 1;
-                    //hide scores
+                if(mode == GameMode.DRAWING) {  //tylko dla rysowania
+                    if (menuVisibility == 0) {
+                        findViewById(R.id.drawing_settings).setVisibility(View.VISIBLE);
+                        menuVisibility = 1;
+                    } else if (menuVisibility == 1) {
+                        findViewById(R.id.drawing_settings).setVisibility(View.GONE);
+                        menuVisibility = 0;
+                    } else {
+                        findViewById(R.id.drawing_settings).setVisibility(View.VISIBLE);
+                        findViewById(R.id.history_view).setVisibility(View.GONE);
+                        menuVisibility = 1;
+                        //hide scores
+                    }
                 }
                 return true;
             case R.id.score_results:
