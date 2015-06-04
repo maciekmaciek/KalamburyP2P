@@ -28,7 +28,7 @@ public class DrawingObject implements Serializable {
      * @param size - rozmiar ścieżki
      */
     public DrawingObject(Path path, int color, int size) {
-        this.path = path;
+        this.path = new Path(path);
         this.color = color;
         this.size = size;
     }

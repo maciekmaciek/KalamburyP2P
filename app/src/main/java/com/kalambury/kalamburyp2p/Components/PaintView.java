@@ -69,13 +69,26 @@ public class PaintView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        for (DrawingObject d : drawingPoints) {
+        if (mBitmap != null)
+            canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+        if (!drawingPoints.isEmpty()) {
+            DrawingObject d = drawingPoints.get(drawingPoints.size() - 1);
             paint.setColor(d.getColor());
             paint.setStrokeWidth(d.getSize());
             canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
             canvas.drawPath(d.getPath(), paint);
         }
         paint.setColor(currentColor);
+        paint.setStrokeWidth(currentSize);
+        canvas.drawPath(drawingPath, paint);
+
+        /*for (DrawingObject d : drawingPoints) {
+            paint.setColor(d.getColor());
+            paint.setStrokeWidth(d.getSize());
+            canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+            canvas.drawPath(d.getPath(), paint);
+        }
+        */
     }
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
@@ -100,6 +113,7 @@ public class PaintView extends View {
         // commit the path to our offscreen
         mCanvas.drawPath(drawingPath, paint);
         // kill this so we don't double draw
+        drawingPoints.add(new DrawingObject(drawingPath, currentColor, currentSize));
         drawingPath.reset();
     }
 
@@ -126,7 +140,6 @@ public class PaintView extends View {
                 touch_up();
                 break;
         }
-        drawingPoints.add(new DrawingObject(drawingPath, currentColor, currentSize));
         invalidate();
         return true;
     }
@@ -134,6 +147,7 @@ public class PaintView extends View {
     public void clear() {
         drawingPoints.clear();
         drawingPath = new Path();
+        mCanvas.drawColor(Color.WHITE);
         invalidate();
     }
 
