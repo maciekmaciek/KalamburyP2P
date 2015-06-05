@@ -57,8 +57,11 @@ public class StartScreen extends Activity {
         }
     }
 
-
+<<<<<<< HEAD
     private void logIn(){   //tutaj bedzie laczenie z innym userem
+=======
+    private void logIn(){   //tutaj b�dzie ��czenie z innym userem
+>>>>>>> origin/master
         if(dem.logIn())
             register();
         GameMode gm = GameMode.DRAWING;
@@ -67,7 +70,6 @@ public class StartScreen extends Activity {
         i.putExtra("mode", gm);
         startActivity(i);
     }
-
     private void register(){
         dem.register("a", "a");
     }

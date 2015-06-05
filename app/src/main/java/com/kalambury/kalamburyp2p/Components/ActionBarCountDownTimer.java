@@ -33,6 +33,8 @@ public class ActionBarCountDownTimer extends CountDownTimer{
         String time = (minutes < 10 ? "0"+minutes : minutes) +":"+ (seconds < 10 ? "0"+seconds : seconds);
 
         timer.setTitle(time);
+
+        Log.d("ASDAISDHdawda", ""+time);
     }
 
     @Override
