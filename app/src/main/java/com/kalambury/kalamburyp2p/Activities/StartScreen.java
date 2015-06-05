@@ -62,8 +62,7 @@ public class StartScreen extends Activity {
         if(dem.logIn())
             register();
         GameMode gm = GameMode.DRAWING;
-        //Intent i = new Intent(this, GameScreen.class);
-        Intent i = new Intent(this, WiFiDirectActivity.class);
+        Intent i = new Intent(this, GameScreen.class);
         i.putExtra("mode", gm);
         startActivity(i);
     }

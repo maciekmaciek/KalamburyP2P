@@ -1,7 +1,7 @@
 package com.kalambury.kalamburyp2p.Communication;
 
 /**
- * Created by Maciej WolaNski
+ * Created by Maciej Wolañski
  * maciekwski@gmail.com
  * on 2015-06-04.
  */

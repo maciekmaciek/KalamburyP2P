@@ -3,6 +3,4 @@
     <color name="brown">#FF793C1E</color>
     <color name="green">#FF4FAD3F</color>
     <color name="screen_background_holo_light">#a0f3f3f3</color>
-    <color name="status_bar_color">#FF000000</color>
-    <color name="layout_border_color">#FF111111</color>
 </resources>

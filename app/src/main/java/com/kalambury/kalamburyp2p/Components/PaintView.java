@@ -1,8 +1,6 @@
 package com.kalambury.kalamburyp2p.Components;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -10,9 +8,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import com.kalambury.kalamburyp2p.Activities.GameScreen;
-import com.kalambury.kalamburyp2p.Communication.DeviceDetailFragment;
-import com.kalambury.kalamburyp2p.Communication.FileTransferService;
-import com.kalambury.kalamburyp2p.Communication.Utils;
 import com.kalambury.kalamburyp2p.Utils.DrawingObject;
 import com.kalambury.kalamburyp2p.R;
 
@@ -50,6 +45,7 @@ public class PaintView extends View {
 
     public PaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
         initialize();
     }
@@ -103,23 +99,14 @@ public class PaintView extends View {
         drawingPath.moveTo(x, y);
         mX = x;
         mY = y;
-
-        DeviceDetailFragment.send(x, y);
     }
-
-
-
     private void touch_move(float x, float y) {
-
-
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
             drawingPath.quadTo(mX, mY, (x + mX)/2, (y + mY)/2);
             mX = x;
             mY = y;
-
-            DeviceDetailFragment.send(x, y);
         }
     }
     private void touch_up() {
@@ -129,7 +116,6 @@ public class PaintView extends View {
         // kill this so we don't double draw
         drawingPoints.add(new DrawingObject(drawingPath, currentColor, currentSize));
         drawingPath.reset();
-
     }
 
     @Override
@@ -191,5 +177,4 @@ public class PaintView extends View {
     public void setTouchable(boolean touchable) {
         this.touchable = touchable;
     }
-
 }
