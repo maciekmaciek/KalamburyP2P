@@ -1,6 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.kalambury.kalamburyp2p">
 
+    <uses-permission android:required="true"
+        android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:required="true"
+        android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:required="true"
+        android:name="android.permission.INTERNET"/>
+
+
     <application
         android:label="@string/app_name"
         android:icon="@drawable/icon_kalambury"
@@ -17,8 +25,8 @@
         </activity>
         <activity
             android:name=".Activities.GameScreen"
-            android:screenOrientation="landscape"
-        />
+            android:screenOrientation="landscape">
+        </activity>
 </application>
 </manifest>
 

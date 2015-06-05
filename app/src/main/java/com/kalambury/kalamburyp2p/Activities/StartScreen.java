@@ -44,7 +44,7 @@ public class StartScreen extends Activity {
         }
     }
 
-    private void logIn(){   //tutaj bêdzie ³¹czenie z innym userem
+    private void logIn(){   //tutaj bedzie laczenie z innym userem
         if(dem.logIn())
             register();
 

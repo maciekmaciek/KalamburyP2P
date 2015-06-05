@@ -2,15 +2,22 @@ package com.kalambury.kalamburyp2p.Activities;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.kalambury.kalamburyp2p.Components.ActionBarCountDownTimer;
 import com.kalambury.kalamburyp2p.Components.PaintView;
 import com.kalambury.kalamburyp2p.R;
 
@@ -31,12 +38,19 @@ public class GameScreen extends Activity {
     private byte menuVisibility = 0; // 0 - paintview, 1 - drawingmenu, 2 - scores
     private PaintView paintView;    //drawing surface
     private SeekBar sizeBar;
+    private ActionBarCountDownTimer countDownTimer;
+    private long millisToCountDown;
+    private boolean isTimerRunning = false;
+    private Activity thisActivity = this;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen);
         paintView = (PaintView) findViewById(R.id.paint_view);
+
+        millisToCountDown = 180000;
 
         sizeBar = (SeekBar) findViewById(R.id.size_bar);
         sizeBar.setProgress(getResources().getInteger(R.integer.init_size));
@@ -93,16 +107,28 @@ public class GameScreen extends Activity {
     } //clear surface
 
     public void onYield(View view) {
+        countDownTimer.start();
         paintView.clear();
-    } //clear surface "odpowiedz", "rezygnuj"
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
+        super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.game_screen_actions, menu);
-        return super.onCreateOptionsMenu(menu);
+
+        MenuItem  timer = menu.findItem(R.id.timer);
+
+
+        isTimerRunning = true;
+        countDownTimer = new ActionBarCountDownTimer(millisToCountDown, 1000, timer);
+        countDownTimer.start();
+
+        return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { // 0 - paintview, 1 - drawingmenu, 2 - scores
@@ -139,6 +165,53 @@ public class GameScreen extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        //countDownTimer.cancel();
+        Log.d("timeRemaining", countDownTimer.getMillisToCountDown()+"");
+        savedInstanceState.putLong("timeRemaining", countDownTimer.getMillisToCountDown());
+        savedInstanceState.putBoolean("timerState", isTimerRunning);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        millisToCountDown = savedInstanceState.getLong("timeRemaining");
+        isTimerRunning = savedInstanceState.getBoolean("timerState");
+    }
+
+    @Override
+    public void onBackPressed() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(R.string.dialog_leaving_game);
+
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                thisActivity.finish();
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+    @Override
+    protected void onPause() {
+        if(countDownTimer!=null)
+            countDownTimer.cancel();
+        super.onPause();
+    }
+
 
     public byte getMenuVisibility() {
         return menuVisibility;

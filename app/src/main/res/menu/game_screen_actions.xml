@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-            android:id="@+id/clock"
-            android:title="@string/clock_default"
-            android:showAsAction="always"/>
+        android:id="@+id/timer"
+        android:title=""
+        android:showAsAction="always"/>
+
     <item
-            android:id="@+id/score_results"
-            android:icon="@drawable/history_icon"
-            android:title="@string/history"
-            android:showAsAction="always"/>
+        android:id="@+id/score_results"
+        android:icon="@drawable/history_icon"
+        android:title="@string/history"
+        android:showAsAction="always"/>
+
     <item
-            android:id="@+id/paint_settings"
-            android:icon="@drawable/paint_icon"
-            android:title="@string/tools"
-            android:showAsAction="always"/>
+        android:id="@+id/paint_settings"
+        android:icon="@drawable/paint_icon"
+        android:title="@string/tools"
+        android:showAsAction="always"/>
 
 </menu>
