@@ -6,9 +6,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import com.kalambury.kalamburyp2p.Communication.DataExchangeManager;
+import com.kalambury.kalamburyp2p.Communication.GameMode;
 import com.kalambury.kalamburyp2p.R;
+import com.kalambury.kalamburyp2p.Utils.Database;
+
+import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class StartScreen extends Activity {
     /**
@@ -16,11 +22,18 @@ public class StartScreen extends Activity {
      */
 
     private DataExchangeManager dem = DataExchangeManager.getInstance();
+    Database db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_screen);
+        db = new Database(getApplicationContext());
+        db.open();
+        db.populateDatabase();
+        //ArrayList<Pair<Integer,String>> pairs = new ArrayList<Pair<Integer, String>>();
+        //pairs = db.getHaslaFromCursor(db.getAllHasloCursor());
+        db.close();
     }
 
     public void onClick(View view) {
@@ -44,11 +57,16 @@ public class StartScreen extends Activity {
         }
     }
 
+<<<<<<< HEAD
     private void logIn(){   //tutaj bedzie laczenie z innym userem
+=======
+    private void logIn(){   //tutaj b�dzie ��czenie z innym userem
+>>>>>>> origin/master
         if(dem.logIn())
             register();
-
+        GameMode gm = GameMode.DRAWING;
         Intent i = new Intent(this, GameScreen.class);
+        i.putExtra("mode", gm);
         startActivity(i);
     }
     private void register(){
