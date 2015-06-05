@@ -2,7 +2,7 @@ package com.kalambury.kalamburyp2p.Activities;
 
 
 import android.app.Activity;
-<<<<<<< HEAD
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,13 +11,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
-=======
+
 import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Pair;
->>>>>>> origin/master
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,12 +26,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-<<<<<<< HEAD
+
 
 import com.kalambury.kalamburyp2p.Components.ActionBarCountDownTimer;
-=======
+
 import com.kalambury.kalamburyp2p.Communication.GameMode;
->>>>>>> origin/master
+
 import com.kalambury.kalamburyp2p.Components.PaintView;
 import com.kalambury.kalamburyp2p.R;
 import com.kalambury.kalamburyp2p.Utils.Database;
@@ -57,19 +57,19 @@ public class GameScreen extends Activity {
     private Database db;
     private PaintView paintView;    //drawing surface
     private SeekBar sizeBar;
-<<<<<<< HEAD
+
     private ActionBarCountDownTimer countDownTimer;
     private long millisToCountDown;
     private boolean isTimerRunning = false;
     private Activity thisActivity = this;
 
 
-=======
+
     private Pair<Integer, String> haslo;
     private long numOfRows;
     private GameMode mode;
     private GuessHelper guessHelper;
->>>>>>> origin/master
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,11 +162,7 @@ public class GameScreen extends Activity {
     } //clear surface
 
     public void onYield(View view) {
-<<<<<<< HEAD
-        countDownTimer.start();
-        paintView.clear();
-    }
-=======
+
         if(mode == GameMode.DRAWING) {
             paintView.clear();
             mode = GameMode.GUESSING;
@@ -176,11 +172,12 @@ public class GameScreen extends Activity {
             if(guessHelper.guessHaslo(odp.getText().toString())){
                 mode = GameMode.DRAWING;
                 paintView.clear();
+                countDownTimer.start();
                 startDrawingTurn();
             }
         }
     } //clear surface "odpowiedz", "rezygnuj"
->>>>>>> origin/master
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
