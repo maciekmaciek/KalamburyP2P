@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Created by Maciej Wolañski
+ * Created by Maciej Wolanski
  * maciekwski@gmail.com
  * on 2015-06-04.
  */

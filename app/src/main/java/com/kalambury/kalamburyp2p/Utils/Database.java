@@ -102,7 +102,7 @@ public class Database {
     }
 
     public void populateDatabase(){
-        if(!getAllHasloCursor().moveToFirst()){ //je¿eli pusty
+        if(!getAllHasloCursor().moveToFirst()){ //jezeli pusty
             ArrayList<String> hasla = HasloImporter.getHasla(context.getResources().openRawResource(
                     context.getResources().getIdentifier("hasla",
                             "raw", context.getPackageName())));
